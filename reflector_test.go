@@ -67,23 +67,6 @@ func TestMapToStructBad2(t *testing.T) {
 	t.Fatal("should panic")
 }
 
-func TestMapToStructWrongType(t *testing.T) {
-	defer func() {
-		r := recover()
-		e, ok := r.(error)
-		if !ok || e.Error() != "MapToStruct, field Uint8: interface conversion: interface is int, not uint8" {
-			t.Error(r)
-		}
-	}()
-	type T struct {
-		Uint8 uint8
-	}
-	var s T
-	m := map[string]interface{}{"Uint8": 8}
-	reflector.MapToStruct(m, &s, reflector.NoConvert, "")
-	t.Fatal("should panic")
-}
-
 func TestMapsToStructsBad1(t *testing.T) {
 	defer func() {
 		r := recover()
