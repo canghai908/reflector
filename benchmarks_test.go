@@ -1,7 +1,7 @@
 package reflector_test
 
 import (
-	. "."
+	"github.com/canghai908/reflector"
 	"reflect"
 	"testing"
 )
@@ -11,7 +11,7 @@ func BenchmarkStructToMap(b *testing.B) {
 	m := make(map[string]interface{})
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		StructToMap(&s, m, "json")
+		reflector.StructToMap(&s, m, "json")
 	}
 	b.StopTimer()
 	expected := map[string]interface{}{
@@ -28,7 +28,7 @@ func BenchmarkStructValueToMap(b *testing.B) {
 	m := make(map[string]interface{})
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		StructValueToMap(s, m, "json")
+		reflector.StructValueToMap(s, m, "json")
 	}
 	b.StopTimer()
 	expected := map[string]interface{}{
@@ -45,7 +45,7 @@ func BenchmarkStructsToMaps(b *testing.B) {
 	var m []map[string]interface{}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		StructsToMaps(s, &m, "json")
+		reflector.StructsToMaps(s, &m, "json")
 	}
 	b.StopTimer()
 	expected := []map[string]interface{}{{
@@ -65,7 +65,7 @@ func BenchmarkMapToStruct(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		MapToStruct(m, &s, NoConvert, "json")
+		reflector.MapToStruct(m, &s, reflector.NoConvert, "json")
 	}
 	b.StopTimer()
 	expected := T{42, 8, 0xbadcafe, 3.14, "str", nil, 0}
@@ -82,7 +82,7 @@ func BenchmarkMapsToStructs(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		MapsToStructs(maps, &s, NoConvert, "json")
+		reflector.MapsToStructs(maps, &s, reflector.NoConvert, "json")
 	}
 	b.StopTimer()
 	expected := []T{{42, 8, 0xbadcafe, 0, "", nil, 0}, {0, 0, 0, 3.14, "str", nil, 0}}
@@ -99,7 +99,7 @@ func BenchmarkMapsToStructs2(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		MapsToStructs2(maps, &s, NoConvert, "json")
+		reflector.MapsToStructs2(maps, &s, reflector.NoConvert, "json")
 	}
 	b.StopTimer()
 	expected := []T{{42, 8, 0xbadcafe, 0, "", nil, 0}, {0, 0, 0, 3.14, "str", nil, 0}}

@@ -1,7 +1,7 @@
 package reflector_test
 
 import (
-	. "."
+	"github.com/canghai908/reflector"
 	"testing"
 )
 
@@ -24,7 +24,7 @@ func TestStructToMapBad1(t *testing.T) {
 		}
 	}()
 	m := make(map[string]interface{})
-	StructToMap(T{}, m, "")
+	reflector.StructToMap(T{}, m, "")
 	t.Fatal("should panic")
 }
 
@@ -38,7 +38,7 @@ func TestStructToMapBad2(t *testing.T) {
 	}()
 	var i int
 	m := make(map[string]interface{})
-	StructToMap(&i, m, "")
+	reflector.StructToMap(&i, m, "")
 	t.Fatal("should panic")
 }
 
@@ -50,7 +50,7 @@ func TestMapToStructBad1(t *testing.T) {
 			t.Error(r)
 		}
 	}()
-	MapToStruct(map[string]interface{}{}, T{}, NoConvert, "")
+	reflector.MapToStruct(map[string]interface{}{}, T{}, reflector.NoConvert, "")
 	t.Fatal("should panic")
 }
 
@@ -63,7 +63,7 @@ func TestMapToStructBad2(t *testing.T) {
 		}
 	}()
 	var i int
-	MapToStruct(map[string]interface{}{}, &i, NoConvert, "")
+	reflector.MapToStruct(map[string]interface{}{}, &i, reflector.NoConvert, "")
 	t.Fatal("should panic")
 }
 
@@ -80,7 +80,7 @@ func TestMapToStructWrongType(t *testing.T) {
 	}
 	var s T
 	m := map[string]interface{}{"Uint8": 8}
-	MapToStruct(m, &s, NoConvert, "")
+	reflector.MapToStruct(m, &s, reflector.NoConvert, "")
 	t.Fatal("should panic")
 }
 
@@ -97,7 +97,7 @@ func TestMapsToStructsBad1(t *testing.T) {
 		"Int": 42, "Uint8": uint8(8), "Uintptr": uintptr(0xbadcafe),
 		"f32": float32(3.14), "String": "str", "foo": 13,
 	}
-	MapsToStructs([]map[string]interface{}{m}, s, NoConvert, "json")
+	reflector.MapsToStructs([]map[string]interface{}{m}, s, reflector.NoConvert, "json")
 	t.Fatal("should panic")
 }
 
@@ -114,7 +114,7 @@ func TestMapsToStructsBad2(t *testing.T) {
 		"Int": 42, "Uint8": uint8(8), "Uintptr": uintptr(0xbadcafe),
 		"f32": float32(3.14), "String": "str", "foo": 13,
 	}
-	MapsToStructs([]map[string]interface{}{m}, s, NoConvert, "json")
+	reflector.MapsToStructs([]map[string]interface{}{m}, s, reflector.NoConvert, "json")
 	t.Fatal("should panic")
 }
 
@@ -131,6 +131,6 @@ func TestMapsToStructsBad3(t *testing.T) {
 		"Int": 42, "Uint8": uint8(8), "Uintptr": uintptr(0xbadcafe),
 		"f32": float32(3.14), "String": "str", "foo": 13,
 	}
-	MapsToStructs([]map[string]interface{}{m}, s, NoConvert, "json")
+	reflector.MapsToStructs([]map[string]interface{}{m}, s, reflector.NoConvert, "json")
 	t.Fatal("should panic")
 }

@@ -1,8 +1,8 @@
 package reflector_test
 
 import (
-	. "."
 	"fmt"
+	"github.com/canghai908/reflector"
 )
 
 func ExampleStructToMap() {
@@ -16,7 +16,7 @@ func ExampleStructToMap() {
 	pstr := "pstr"
 	s := T{8, 3.14, "str", &pstr, 13}
 	m := make(map[string]interface{})
-	StructToMap(&s, m, "json")
+	reflector.StructToMap(&s, m, "json")
 	fmt.Printf("%#v %#v %#v %#v %#v\n", m["Uint8"], m["f32"], m["String"], m["Pstring"], m["foo"])
 	// Output:
 	// 0x8 3.14 "str" "pstr" <nil>
@@ -32,7 +32,7 @@ func ExampleStructValueToMap() {
 	}
 	s := T{8, 3.14, "str", nil, 13}
 	m := make(map[string]interface{})
-	StructValueToMap(s, m, "json")
+	reflector.StructValueToMap(s, m, "json")
 	fmt.Printf("%#v %#v %#v %#v %#v\n", m["Uint8"], m["f32"], m["String"], m["Pstring"], m["foo"])
 	_, ok := m["Pstring"]
 	fmt.Println(ok)
@@ -52,7 +52,7 @@ func ExampleStructsToMaps() {
 	pstr := "pstr"
 	s := []T{{8, 3.14, "str", &pstr, 13}}
 	var m []map[string]interface{}
-	StructsToMaps(s, &m, "json")
+	reflector.StructsToMaps(s, &m, "json")
 	fmt.Printf("%#v %#v %#v %#v %#v\n", m[0]["Uint8"], m[0]["f32"], m[0]["String"], m[0]["Pstring"], m[0]["foo"])
 	// Output:
 	// 0x8 3.14 "str" "pstr" <nil>
@@ -68,7 +68,7 @@ func ExampleMapToStruct_noConvert() {
 	}
 	var s T
 	m := map[string]interface{}{"Uint8": uint8(8), "f32": float32(3.14), "Pstring": "pstr", "foo": 13}
-	MapToStruct(m, &s, NoConvert, "json")
+	reflector.MapToStruct(m, &s, reflector.NoConvert, "json")
 	m["Pstring"] = "foo"
 	fmt.Printf("%#v %#v %#v %#v %#v\n", s.Uint8, s.Float32, s.String, *s.Pstring, s.foo)
 	// Output:
@@ -85,7 +85,7 @@ func ExampleMapToStruct_strconv() {
 	}
 	var s T
 	m := map[string]interface{}{"Uint8": 8, "f32": 3, "Pstring": "pstr", "foo": 13}
-	MapToStruct(m, &s, Strconv, "json")
+	reflector.MapToStruct(m, &s, reflector.Strconv, "json")
 	m["Pstring"] = "foo"
 	fmt.Printf("%#v %#v %#v %#v %#v\n", s.Uint8, s.Float32, s.String, *s.Pstring, s.foo)
 	// Output:
@@ -105,7 +105,7 @@ func ExampleMapsToStructs_noConvert() {
 		{"Uint8": uint8(8), "Pstring": "pstr"},
 		{"f32": float32(3.14), "String": "str", "foo": 13},
 	}
-	MapsToStructs(maps, &s, NoConvert, "json")
+	reflector.MapsToStructs(maps, &s, reflector.NoConvert, "json")
 	fmt.Printf("%#v %#v %#v %#v %#v\n", s[0].Uint8, s[0].Float32, s[0].String, *s[0].Pstring, s[0].foo)
 	fmt.Printf("%#v %#v %#v %#v %#v\n", s[1].Uint8, s[1].Float32, s[1].String, s[1].Pstring, s[1].foo)
 	// Output:
@@ -126,7 +126,7 @@ func ExampleMapsToStructs_strconv() {
 		{"Uint8": 8, "f32": 3, "foo": 13, "Pstring": "pstr"},
 		{"Uint8": "9", "f32": "4", "String": "43", "foo": "13"},
 	}
-	MapsToStructs(maps, &s, Strconv, "json")
+	reflector.MapsToStructs(maps, &s, reflector.Strconv, "json")
 	fmt.Printf("%#v %#v %#v %#v %#v\n", s[0].Uint8, s[0].Float32, s[0].String, *s[0].Pstring, s[0].foo)
 	fmt.Printf("%#v %#v %#v %#v %#v\n", s[1].Uint8, s[1].Float32, s[1].String, s[1].Pstring, s[1].foo)
 	// Output:
